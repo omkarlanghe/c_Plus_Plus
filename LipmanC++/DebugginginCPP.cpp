@@ -19,3 +19,9 @@ int main()
 	}
 	return(0);
 }
+
+/*
+ Error: DebugginginCPP.cpp at line: 14
+ Compiled on: Apr 22 2019 at 02:16:47
+ you have enter too less size
+*/
