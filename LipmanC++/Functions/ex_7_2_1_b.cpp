@@ -15,7 +15,8 @@ int main(void)
 	cout<<"Enter the value of b:"<<endl;
 	cin>>b;
 	cout<<"Before swapping two numbers:"<<a<<" "<<b<<endl;
-	swapbyreference(&a,&b); //passing address to two variables
+	swapbyreference(&a,&b); //passing address of two variables
+	//cout<<a<<b;
 	return(0);
 }
 void swapbyreference(int *a, int *b)
