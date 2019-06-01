@@ -12,7 +12,7 @@ int main()
 	if(file.is_open())
 	{
 		size = file.tellg();
-		//tellg() member functions with no parameters returns value of the member type streampos, 		     which is a type representing the current get position.
+		//tellg() member functions with no parameters returns value of the member type streampos, which is a type representing the current get position.
 		memblock = new char[size];
 		file.seekg(0, ios::beg);
 		//seekg() allows to change get position.
