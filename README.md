@@ -1,2 +1,2 @@
 # c_Plus_Plus
-programs using object oriented concepts and C++ basic programs to understand fundamentals
+Solved examples from famous book, C++ Primer by stanley B. lippman for learning C++.
