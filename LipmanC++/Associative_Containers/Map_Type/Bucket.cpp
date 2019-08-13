@@ -38,11 +38,12 @@ void Menu()
 
 void SimulateOperations()
 {
-	int choice, i = 0;
+	int choice, i = 0, key;
 	string word;
 	map<int, string> bucketObj;
 	map<int, string>::iterator iter;
-
+	map<int, string>::iterator itor1 = bucketObj.begin();
+       	map<int, string>::iterator itor2 = bucketObj.end();
 
 	do {
 		cout<<"Welcome to my bucket of words to play with.."<<endl;
@@ -77,18 +78,33 @@ void SimulateOperations()
 				break;
 
 			case 2:
+				cout<<"Size of the bucket is : "<<bucketObj.size()<<endl;
 				break;
 			case 3:
+				cout<<"Maximum size a bucket can hold following elements :"<<bucketObj.max_size()<<endl;
 				break;
 			case 4:
+				if(bucketObj.empty())
+					cout<<"Bucket is empty"<<endl;
+				else
+					cout<<"Bucket is not empty"<<endl;
 				break;
 			case 5:
+				cout<<"Newest word in the bucket is : "<<itor1->first<<" : "<<itor1->second<<endl;
 				break;
 			case 6:
+				cout<<"Oldest word in the bucket is : "<<itor2->first<<" : "<<itor2->second<<endl;
 				break;
 			case 7:
+				cout<<"Enter the key to remove from Map :"<<endl;
+				cin>>key;
+				bucketObj.erase(key);
 				break;
 			case 8:
+				for(iter = bucketObj.begin() ; iter != bucketObj.end() ; ++iter)
+				{
+					bucketObj.erase(iter->first);
+				}
 				break;
 			case 9:
 				cout<<"Bucket contains following words:"<<endl;
@@ -103,4 +119,3 @@ void SimulateOperations()
 		}
 	} while(choice != 10);
 }
-
