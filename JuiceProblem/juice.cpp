@@ -1,7 +1,9 @@
 #include<iostream>
 #include<vector>
-
-int SimulateOperation();
+#include<string>
+#include<sstream>
+#include<map>
+#include"juice.h"
 
 using namespace std;
 
@@ -13,53 +15,131 @@ int main()
 
 int SimulateOperation()
 {
-	int n_frnds, limit = 200; 
-	int uniqueFruitJuices;
-	int cal, exactIntake;
-	string jName;
+	string N;
+	int n = 0;
+	getline(cin, N); //reads input from current line and stores in N
+	n = stoi(N); // converts N to integer: number of friends invited
+	
+	for(int i = 0 ; i < n ; i++) {
+		FruitsAndFriend();
+	}
+	return(0);
+}
 
-	vector<int> calContent;
-	vector<string> sJuiceName;
+void FruitsAndFriend()
+{
+	string noOfFruitsWithCalories, juiceOnCupBoard, calIn;
+	int calIntake;
 
-	//LINE 1 
-	cout<<"Enter no. of friends to invite"<<endl;
-	cin>>n_frnds;
+	getline(cin, noOfFruitsWithCalories); //number of unique fruit juices
+	getline(cin, juiceOnCupBoard); //fruit juice on cupboard  'abceed'
+	getline(cin, calIn); //cal intake
 
-	if(n_frnds > limit) {
-		cout<<"Invitation limit reached"<<endl;
-		return -1;
+	//cout<<"no of fruits with cal :"<<noOfFruitsWithCalories<<endl;
+	//cout<<"juice on cup board :"<<juiceOnCupBoard<<endl;
+	//cout<<"cal intake : "<<calIn<<endl;
+
+	calIntake = stoi(calIn);
+
+	vector<int> vcNoOfFruitWithCal; //
+	istringstream iss(noOfFruitsWithCalories);
+	string token;
+
+	while(getline(iss, token, ' ')) {
+		//cout<<"*"<<stoi(token)<<endl; token extracts every element from vector
+		vcNoOfFruitWithCal.push_back(stoi(token)); // puttin in vector
+	}
+
+	map<char, int> juiceOnCupBoardFreq;
+	for(char c: juiceOnCupBoard) {
+		juiceOnCupBoardFreq[c]++;
+	}
+
+	//map testing
+	//for(auto iter = juiceOnCupBoardFreq.begin() ; iter != juiceOnCupBoardFreq.end() ; ++iter) {
+		//cout<<iter->first<<" : "<<iter->second<<endl;
+	//}
+	
+	map<char, int> juiceWithCal;
+	int ind = 1;
+	for(map<char, int>::iterator iter = juiceOnCupBoardFreq.begin() ; iter != juiceOnCupBoardFreq.end() ; ++iter) {
+		juiceWithCal[iter->first] = vcNoOfFruitWithCal.at(ind);
+		ind++;
+	}
+
+	//map testing
+	//for(auto iter = juiceWithCal.begin() ; iter != juiceWithCal.end() ; ++iter) {
+	//	cout<<iter->first<<" : "<<iter->second<<endl;
+	//}
+	
+	vector<int> combinedVec;
+	vector<pair<int, char>> listIndex;
+
+
+	combinedVec = getCombinedVcc(juiceWithCal, juiceOnCupBoardFreq, listIndex);
+/*	
+	for(auto iter = combinedVec.begin() ; iter != combinedVec.end() ; ++iter) {
+		cout<<"combined vec ->"<<*iter<<endl;	
+	}
+*/	
+
+	vector<int> indexVc, outVc;
+	btCombinedVc(combinedVec, calIntake, 0, outVc);
+/*	
+	for(auto iter = outVc.begin() ; iter != outVc.end() ; ++iter) {
+		cout<<"outvec ->"<<*iter<<endl;
+	}
+*/	
+	int ss = 0;
+	for(int i = 0; i < outVc.size() ; i++) {
+		ss = ss + combinedVec.at(outVc.at(i));
+	}
+
+	if(ss == calIntake) {
+		//cout<<"Inside if calIntake check"<<endl;
+		for(int i = 0 ; i < outVc.size() ; i++) {
+			for(int j = 0 ; j < listIndex.at(outVc.at(i)).first ; j++) {
+				cout<<listIndex.at(outVc.at(i)).second;
+			}
+		}
+		cout<<endl;
 	} else {
-		//LINE 2
-		cout<<"Enter no. of unique fruit juices"<<endl;
-		cin>>uniqueFruitJuices;
+		cout<<"SORRY, YOU JUST HAVE WATER"<<endl;
+	}
+}
 
-		if(uniqueFruitJuices < 1 || uniqueFruitJuices > 26) {
-			return -1;
-		} else {
-			for(int i = 0 ; i < uniqueFruitJuices ; i++)
-			{
-				//LINE 2
-				cin>>cal;
-				calContent.push_back(cal);
-			}
-
-			//LINE 3
-			cout<<"Enter juice name"<<endl;
-			while(cin>>jName)
-			{
-				if(jName == "0") {
-					break;
-				} else {
-					sJuiceName.push_back(jName);
-				}
-			}
-
-			//LINE 4
-			cout<<"Please provide exact calorie intake of your friend"<<endl;
-			cin>>exactIntake;
-
-			//Pass these inputs further
+vector<int> getCombinedVcc(map<char, int> &juiceWithCal, map<char, int> &juiceOnCupBoardFreq, vector<pair<int, char>> &listIndex)
+{
+	vector<int> retVec;
+	for(auto iter = juiceOnCupBoardFreq.begin() ; iter != juiceOnCupBoardFreq.end() ; ++iter)
+	{
+		for(int i = 1 ; i<=(iter->second) ; i++)
+		{
+			retVec.push_back(i*(juiceWithCal[iter->first]));
+			listIndex.push_back(make_pair(i, iter->first));
 		}
 	}
+	return(retVec);
+}
+
+void btCombinedVc(vector<int> &inVc, int calIntake, int ind, vector<int> &outVc)
+{
+	//cout<<"inside back track"<<endl;
+	//cout<<"cal intake"<<calIntake<<endl;
+	
+	if(calIntake == 0) {
+		return;
+	}
+	if(calIntake < 0) {
+		return;
+	}
+	for(int i = ind ; i < inVc.size() ; i++){
+       		if(inVc.at(i) <= calIntake){
+		//cout<<"Test"<<endl;
+            	outVc.push_back(i);
+            	btCombinedVc(inVc, calIntake - inVc.at(i), i + 1, outVc);
+            	break;
+        }
+    }
 }
 
