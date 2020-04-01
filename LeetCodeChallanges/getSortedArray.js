@@ -34,37 +34,30 @@ function sortByRemainder(arr) {
             return ([]);
         }
         pairedArr.push({
-            key: arr[i] % min,
+            key: (arr[i] % min),
             value: arr[i]
         });
-        distinctRemainderArr.push(arr[i] % min);
+        distinctRemainderArr.push((arr[i] % min));
     }
-
     pairedArr.sort(function (a, b) {
-        return b.key - a.key;
+        return (b.key - a.key);
     });
-
     distinctRemainderArr.sort(function (a, b) {
-        return b - a;
+        return (b - a);
     });
-
     distinctRemainderArr = [...new Set(distinctRemainderArr)]; // returns distinct reminders
-
     let hashedArr = createHashMap(pairedArr, distinctRemainderArr); //creates hash map for a given input
-
     for (let i = 0; i < hashedArr.length; i++) {
         for (let j = 0; j < hashedArr[i].value.length; j++) {
             sortedArr.push(hashedArr[i].value[j]);
         }
     }
-
     /**
      * explicitly free array elements
      */
     pairedArr = [];
     distinctRemainderArr = [];
     hashedArr = [];
-
     return (sortedArr); // returns sorted array from hash map
 }
 
@@ -82,16 +75,13 @@ function createHashMap(pairArray, distinctRemainderArr) {
         hArr.push(hash);
     }
     let hashMap = getSortedArrayOfObjects(hArr);
-
     /**
     * explicitly free array elements
     */
     pairArray = [];
     distinctRemainderArr = [];
-
     return (hashMap);
 }
-
 function getSortedArrayOfObjects(hashedArr) {
     for (let i = 0; i < hashedArr.length; i++) {
         hashedArr[i].value.sort(function (a, b) {
