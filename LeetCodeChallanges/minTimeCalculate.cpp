@@ -1,7 +1,6 @@
 #include<iostream>
 #include<stdbool.h>
 using namespace std;
-
 bool isMinFound(int*, int, int);
 int minTimeCalculate(int*, int, int);
 
