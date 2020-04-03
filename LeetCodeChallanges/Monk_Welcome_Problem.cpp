@@ -48,7 +48,6 @@ int main(){
 		delete arr3;
 	}
 }
-
 void moveAddedElements(int *arr1, int *arr2, int *arr3, int size) {
 	for(int i = 0 ; i < size ; i++) {
 		arr3[i] = arr1[i] + arr2[i];
