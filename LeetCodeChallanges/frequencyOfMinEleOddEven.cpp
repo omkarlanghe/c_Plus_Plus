@@ -3,7 +3,7 @@ using namespace std;
 
 int main() {
 	short int t = 10;
-	int n, count;
+	int n, count, min;
 	int iVec[100000];
 	cin>>t;
 
@@ -13,7 +13,8 @@ int main() {
 		for(auto i = 0 ; i < n ; i++) {
 		    cin>>iVec[i];
 		}
-        int min = iVec[0];
+        	
+		min = iVec[0];
         
 		for(auto j = 1 ;  j < n ; j++) {
 		    if(min == iVec[j]) {
