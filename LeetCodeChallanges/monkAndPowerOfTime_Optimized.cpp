@@ -1,50 +1,32 @@
 #include<iostream>
+#include<queue>
 using namespace std;
 
-int shiftArray(int*,int*,int);
-int totalTime = 0;
-
 int main() {
-    int size;
-    int* callingOrder = new int[size];
-    int* idealOrder = new int[size];
-    
-    cin>>size;
-    
-    for(int i = 0 ; i < size ; i++) {
-        cin>>callingOrder[i];
-    }
-    for(int j = 0 ; j < size ; j++) {
-        cin>>idealOrder[j];
-    }
-    
-    int totaltime = shiftArray(callingOrder, idealOrder, size);
-    cout<<totaltime<<endl;
-    delete callingOrder;
-    delete idealOrder;
-    return(0);
-}
+	int N, pid, total_time = 0;
+	queue<int> c_order, i_order;
+	cin>>N;
 
-int shiftArray(int *A, int *B, int size) {
-    int i = 0, n = size;
-        
-    while(i < n)
-    {
-        if(A[i] == B[i])
-        {
-            i = i + 1;
-            totalTime++;
-        }
-        else
-        {
-            for(int j = i ; j < n - 1 ; j++)
-            {
-                int temp = A[j];
-                A[j] = A[j + 1];
-                A[j + 1] = temp;
-            }
-            totalTime++;
-        }
-    }
-    return (totalTime);
+	for(auto i = 0 ; i < N ; i++) {
+		cin>>pid;
+		c_order.push(pid);
+	}
+	for(auto i = 0 ; i < N ; i++) {
+		cin>>pid;
+		i_order.push(pid);
+	}
+
+	while(!c_order.empty()) {
+		if(c_order.front() == i_order.front()) {
+			total_time++;
+			c_order.pop();
+			i_order.pop();
+		} else {
+			c_order.push(c_order.front());
+			c_order.pop();
+			total_time++;
+		}
+	}
+	cout<<total_time<<endl;
+	return(0);
 }
